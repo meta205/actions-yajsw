@@ -16,8 +16,8 @@ jobs:
           node-version: 16.x
       - name: Get release info
         run: |
-          echo "tag-name=$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
-          echo "release-name=$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
+          echo "tag-name=v$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
+          echo "release-name=v$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
         id: release-info
       - name: Check the build
         run: |
@@ -30,6 +30,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.release-info.outputs.tag-name }}
-          release_name: v${{ steps.release-info.outputs.release-name }}
-        id: create-release
-
+          release_name: ${{ steps.release-info.outputs.release-name }}
