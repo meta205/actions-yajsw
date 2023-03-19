@@ -21,6 +21,7 @@ jobs:
         id: release-info
       - name: Check the build
         run: |
+          npm i -g @vercel/ncc
           npm ci
           npm run build
       - name: Create release
