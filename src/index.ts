@@ -10,7 +10,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
   try {
     const workingDir: string = process.cwd();
 
-    const srcPath: string = path.join(workingDir, 'yajsw');
+    const srcPath: string = path.join('..', 'yajsw');
 
     let distPath: string = core.getInput('dist-path');
     if (!distPath) {

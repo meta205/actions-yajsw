@@ -5555,7 +5555,7 @@ const core = __importStar(__nccwpck_require__(2810));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const workingDir = process.cwd();
-        const srcPath = path.join(workingDir, 'yajsw');
+        const srcPath = path.join('..', 'yajsw');
         let distPath = core.getInput('dist-path');
         if (!distPath) {
             distPath = path.join(workingDir, 'release/yajsw');
