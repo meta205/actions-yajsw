@@ -24,7 +24,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
       const yajswFile: string = await tc.downloadTool(yajswUrl);
       const yajswDir: string = await tc.extractZip(
           yajswFile,
-          tempDir
+          srcPath
       );
 
       console.log(`The download path of yajsw: ${yajswDir}`);
