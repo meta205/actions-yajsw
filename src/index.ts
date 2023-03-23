@@ -2,15 +2,33 @@ import fs from 'fs-extra';
 import fsPromise from 'fs/promises';
 import * as path from 'path';
 import * as core from '@actions/core';
+import * as tc from '@actions/tool-cache';
+import * as io from '@actions/io';
 
-type FileNameMap = {[key: string]: string};
+type FileNameDict = {[key: string]: string};
 type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 
 (async (): Promise<void> => {
   try {
     const workingDir: string = process.cwd();
 
-    const srcPath: string = path.join('..', 'yajsw');
+    const srcPath: string = path.join(workingDir, 'yajsw');
+
+    if (!fs.existsSync(srcPath)) {
+      let tempDir = process.env.RUNNER_TEMPDIRECTORY || path.join(`${process.env.HOME}`, 'tmp');
+      await io.mkdirP(tempDir);
+
+      const tagName: string = core.getInput('tag-name');
+
+      const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
+      const yajswFile: string = await tc.downloadTool(yajswUrl);
+      const yajswDir: string = await tc.extractZip(
+          yajswFile,
+          tempDir
+      );
+
+      console.log(`The download path of yajsw: ${yajswDir}`);
+    }
 
     let distPath: string = core.getInput('dist-path');
     if (!distPath) {
@@ -32,7 +50,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 
     console.log('Change the file name...');
 
-    const renameFileMap: FileNameMap = {
+    const renameFileDict: FileNameDict = {
       'installService.bat': 'install-service.bat',
       'installDaemon.sh': 'install-service.sh',
       'installDaemonNoPriv.sh': 'install-service-nopriv.sh',
@@ -49,8 +67,8 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
       'uninstallDaemonNoPriv.sh': 'uninstall-service-nopriv.sh'
     };
 
-    for (const key in renameFileMap) {
-      fs.rename(path.join(distPath, 'bin', key), path.join(distPath, 'bin', renameFileMap[key]), () => {});
+    for (const key in renameFileDict) {
+      fs.rename(path.join(distPath, 'bin', key), path.join(distPath, 'bin', renameFileDict[key]), () => {});
     }
 
     console.log('Delete unnecessary files...');

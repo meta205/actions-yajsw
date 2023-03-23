@@ -17,16 +17,14 @@ jobs:
         uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
+      - name: Make assets file
+        run: |
+          zip -r yajsw.zip yajsw/*
       - name: Get release info
         run: |
-          echo "tag-name=v$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
-          echo "release-name=v$(cat package.json | jq .version)" >> $GITHUB_OUTPUT
+          echo "tag-name=v$(cat package.json | jq '.version|split(".")[0]')" >> $GITHUB_OUTPUT
+          echo "release-name=v$(cat package.json | jq '.version|split(".")[0]')" >> $GITHUB_OUTPUT
         id: release-info
-      - name: Check the build
-        run: |
-          npm i -g @vercel/ncc
-          npm ci
-          npm run build
       - name: Create release
         uses: actions/create-release@v1
         env:
@@ -34,3 +32,13 @@ jobs:
         with:
           tag_name: ${{ steps.release-info.outputs.tag-name }}
           release_name: ${{ steps.release-info.outputs.release-name }}
+        id: create-release
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: yajsw.zip
+          asset_name: yajsw.zip
+          asset_content_type: application/zip
