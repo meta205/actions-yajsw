@@ -22,7 +22,7 @@ jobs:
       - name: Create release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.release-info.outputs.tag-name }}
           release_name: ${{ steps.release-info.outputs.release-name }}
@@ -30,7 +30,7 @@ jobs:
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: yajsw.zip
