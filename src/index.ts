@@ -3,7 +3,6 @@ import fsPromise from 'fs/promises';
 import * as path from 'path';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
-import * as io from '@actions/io';
 
 type FileNameDict = {[key: string]: string};
 type FileReplaceInfo = {[key: string]: {[key: string]: string}};
@@ -15,9 +14,6 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     const srcPath: string = path.join(workingDir, 'yajsw');
 
     if (!fs.existsSync(srcPath)) {
-      let tempDir = process.env.RUNNER_TEMPDIRECTORY || path.join(`${process.env.HOME}`, 'tmp');
-      await io.mkdirP(tempDir);
-
       const tagName: string = core.getInput('tag-name');
 
       const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;

@@ -9370,14 +9370,11 @@ const promises_1 = __importDefault(__nccwpck_require__(3292));
 const path = __importStar(__nccwpck_require__(1017));
 const core = __importStar(__nccwpck_require__(1634));
 const tc = __importStar(__nccwpck_require__(9229));
-const io = __importStar(__nccwpck_require__(1281));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const workingDir = process.cwd();
         const srcPath = path.join(workingDir, 'yajsw');
         if (!fs_extra_1.default.existsSync(srcPath)) {
-            let tempDir = process.env.RUNNER_TEMPDIRECTORY || path.join(`${process.env.HOME}`, 'tmp');
-            yield io.mkdirP(tempDir);
             const tagName = core.getInput('tag-name');
             const yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
             const yajswFile = yield tc.downloadTool(yajswUrl);
