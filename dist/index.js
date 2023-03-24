@@ -9372,24 +9372,12 @@ const tc = __importStar(__nccwpck_require__(8021));
     try {
         const workingDir = process.cwd();
         let srcPath = path.join(workingDir, 'yajsw');
-        console.log(`>> process.env.GITHUB_ACTION_PATH: ${process.env.GITHUB_ACTION_PATH}`);
-        console.log(`>> process.env.GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`);
-        console.log(`>> process.env.GITHUB_REPOSITORY_OWNER: ${process.env.GITHUB_REPOSITORY_OWNER}`);
         if (!fs_extra_1.default.existsSync(srcPath)) {
-            let actionPath = process.env.GITHUB_ACTION_PATH || '';
-            if (actionPath) {
-                actionPath = path.join(actionPath, 'yajsw');
-            }
-            if (fs_extra_1.default.existsSync(actionPath)) {
-                srcPath = actionPath;
-            }
-            else {
-                const tagName = core.getInput('tag-name');
-                const yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
-                const yajswFile = yield tc.downloadTool(yajswUrl);
-                const yajswDir = yield tc.extractZip(yajswFile, srcPath);
-                console.log(`The download path of yajsw: ${yajswDir}`);
-            }
+            const tagName = core.getInput('tag-name');
+            const yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
+            const yajswFile = yield tc.downloadTool(yajswUrl);
+            const yajswDir = yield tc.extractZip(yajswFile, srcPath);
+            console.log(`The download path of yajsw: ${yajswDir}`);
         }
         let distPath = core.getInput('dist-path');
         if (!distPath) {
