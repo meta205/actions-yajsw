@@ -11,19 +11,28 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
   try {
     const workingDir: string = process.cwd();
 
-    const srcPath: string = path.join(workingDir, 'yajsw');
+    let srcPath: string = path.join(workingDir, 'yajsw');
 
     if (!fs.existsSync(srcPath)) {
-      const tagName: string = core.getInput('tag-name');
+      let actionPath: string = process.env.GITHUB_ACTION_PATH || '';
+      if (actionPath) {
+        actionPath = path.join(actionPath, 'yajsw');
+      }
 
-      const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
-      const yajswFile: string = await tc.downloadTool(yajswUrl);
-      const yajswDir: string = await tc.extractZip(
-          yajswFile,
-          srcPath
-      );
+      if (fs.existsSync(actionPath)) {
+        srcPath = actionPath;
+      } else {
+        const tagName: string = core.getInput('tag-name');
 
-      console.log(`The download path of yajsw: ${yajswDir}`);
+        const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
+        const yajswFile: string = await tc.downloadTool(yajswUrl);
+        const yajswDir: string = await tc.extractZip(
+            yajswFile,
+            srcPath
+        );
+
+        console.log(`The download path of yajsw: ${yajswDir}`);
+      }
     }
 
     let distPath: string = core.getInput('dist-path');
