@@ -9372,6 +9372,9 @@ const tc = __importStar(__nccwpck_require__(8021));
     try {
         const workingDir = process.cwd();
         let srcPath = path.join(workingDir, 'yajsw');
+        console.log(`>> process.env.GITHUB_ACTION_PATH: ${process.env.GITHUB_ACTION_PATH}`);
+        console.log(`>> process.env.GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`);
+        console.log(`>> process.env.GITHUB_REPOSITORY_OWNER: ${process.env.GITHUB_REPOSITORY_OWNER}`);
         if (!fs_extra_1.default.existsSync(srcPath)) {
             let actionPath = process.env.GITHUB_ACTION_PATH || '';
             if (actionPath) {

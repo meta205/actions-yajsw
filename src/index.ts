@@ -13,6 +13,10 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 
     let srcPath: string = path.join(workingDir, 'yajsw');
 
+    console.log(`>> process.env.GITHUB_ACTION_PATH: ${process.env.GITHUB_ACTION_PATH}`);
+    console.log(`>> process.env.GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`);
+    console.log(`>> process.env.GITHUB_REPOSITORY_OWNER: ${process.env.GITHUB_REPOSITORY_OWNER}`);
+
     if (!fs.existsSync(srcPath)) {
       let actionPath: string = process.env.GITHUB_ACTION_PATH || '';
       if (actionPath) {
