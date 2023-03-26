@@ -6,9 +6,6 @@ branding:
   color: 'blue'
 
 inputs:
-  tag-name:
-    description: 'The tag name of release asset'
-    required: true
   dist-path:
     description: 'The distribution path of yajsw'
     required: false

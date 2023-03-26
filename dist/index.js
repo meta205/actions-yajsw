@@ -9373,8 +9373,7 @@ const tc = __importStar(__nccwpck_require__(8021));
         const workingDir = process.cwd();
         let srcPath = path.join(workingDir, 'yajsw');
         if (!fs_extra_1.default.existsSync(srcPath)) {
-            const tagName = core.getInput('tag-name');
-            const yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
+            const yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/v1/yajsw.zip`;
             const yajswFile = yield tc.downloadTool(yajswUrl);
             const yajswDir = yield tc.extractZip(yajswFile, srcPath);
             console.log(`The download path of yajsw: ${yajswDir}`);

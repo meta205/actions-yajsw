@@ -14,9 +14,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     let srcPath: string = path.join(workingDir, 'yajsw');
 
     if (!fs.existsSync(srcPath)) {
-      const tagName: string = core.getInput('tag-name');
-
-      const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/${tagName}/yajsw.zip`;
+      const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/v1/yajsw.zip`;
       const yajswFile: string = await tc.downloadTool(yajswUrl);
       const yajswDir: string = await tc.extractZip(
           yajswFile,
