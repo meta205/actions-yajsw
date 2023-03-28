@@ -141,7 +141,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
         'wrapper.on_exit.0=SHUTDOWN': 'wrapper.on_exit.0=RESTART',
         'wrapper.on_signal.9=SHUTDOWN': 'wrapper.on_signal.9=RESTART',
         'wrapper.filter.trigger.0=Exception': '#wrapper.filter.trigger.0=Exception',
-        'wrapper.filter.script.0=${wrapper_home}/scripts/trayMessage.gv': '#wrapper.filter.script.0=${wrapper_home}/scripts/trayMessage.gv',
+        'wrapper.filter.script.0=.*': '#wrapper.filter.script.0=${wrapper_home}/scripts/trayMessage.gv',
         'wrapper.filter.script.0.args=Exception': '#wrapper.filter.script.0.args=Exception'
       }
     }
