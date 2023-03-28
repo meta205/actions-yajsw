@@ -58,7 +58,8 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
       'stopDaemonNoPriv.sh': 'stop-service-nopriv.sh',
       'uninstallService.bat': 'uninstall-service.bat',
       'uninstallDaemon.sh': 'uninstall-service.sh',
-      'uninstallDaemonNoPriv.sh': 'uninstall-service-nopriv.sh'
+      'uninstallDaemonNoPriv.sh': 'uninstall-service-nopriv.sh',
+      'wrapperW.bat': 'wrapperw.bat'
     };
 
     for (const key in renameFileDict) {
@@ -124,7 +125,8 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
       'bin/setenv.bat': {
         'set wrapper_home=%~dp0/..': 'set wrapper_home=%~dp0/../wrapper',
         'set wrapper_bat="%wrapper_home%/bat/wrapper.bat"': 'set wrapper_bat="%wrapper_home%/../bin/wrapper.bat"',
-        'set wrapperw_bat="%wrapper_home%/bat/wrapperW.bat"': 'set wrapperw_bat="%wrapper_home%/../bin/wrapperW.bat"'
+        'set wrapperw_bat="%wrapper_home%/bat/wrapperW.bat"': 'set wrapperw_bat="%wrapper_home%/../bin/wrapperW.bat"',
+        'wrapperW.bat': 'wrapperw.bat'
       },
       'bin/setenv.sh': {
         'wrapper_home=.*': 'wrapper_home=$(pwd)/wrapper'
@@ -135,8 +137,12 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
         'wrapper.logfile=.*': 'wrapper.logfile=${wrapper_home}/log/wrapper_YYYYMMDD_ROLLNUM.log',
         '#wrapper.logfile.rollmode=DATE': 'wrapper.logfile.rollmode=DATE\nwrapper.logfile.maxdays=7',
         '#wrapper.console.visible=false': 'wrapper.console.visible=true',
+        'wrapper.tray = true': 'wrapper.tray = false',
         'wrapper.on_exit.0=SHUTDOWN': 'wrapper.on_exit.0=RESTART',
-        'wrapper.on_signal.9=SHUTDOWN': 'wrapper.on_signal.9=RESTART'
+        'wrapper.on_signal.9=SHUTDOWN': 'wrapper.on_signal.9=RESTART',
+        'wrapper.filter.trigger.0=Exception': '#wrapper.filter.trigger.0=Exception',
+        'wrapper.filter.script.0=${wrapper_home}/scripts/trayMessage.gv': '#wrapper.filter.script.0=${wrapper_home}/scripts/trayMessage.gv',
+        'wrapper.filter.script.0.args=Exception': '#wrapper.filter.script.0.args=Exception'
       }
     }
 
