@@ -1,7 +1,7 @@
-yajsw-stable-13.08
+yajsw-stable-13.10
 
-    * Bug: cli wrapper properties ignored when installing a service
-    * Change: remove logging	
+    * New: support jdk 19/20: update to groovy 4.0.12
+    * Bug: Logging not substituting variables	
 	
 Note: support the project by donating:
 

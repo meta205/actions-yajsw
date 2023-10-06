@@ -9,21 +9,27 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 
 (async (): Promise<void> => {
   try {
+    const latestVersion: string = '13.10';
     const workingDir: string = process.cwd();
+    const srcPath: string = path.join(workingDir, 'yajsw');
 
-    let srcPath: string = path.join(workingDir, 'yajsw');
+    let yajswUrl: string = 'https://github.com/meta205/actions-yajsw/releases/download/v1.1/yajsw.zip';
 
-    if (!fs.existsSync(srcPath)) {
-      const yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/v1/yajsw.zip`;
-      const yajswFile: string = await tc.downloadTool(yajswUrl);
-      const yajswDir: string = await tc.extractZip(
-          yajswFile,
-          srcPath
-      );
-
-      console.log(`The download path of yajsw: ${yajswDir}`);
+    const yajswVersion: string = core.getInput('yajsw-version');
+    if (yajswVersion !== latestVersion) {
+      yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-${yajswVersion}/yajsw-stable-${yajswVersion}.zip`;
     }
 
+    console.log('Downloading yajsw...');
+    console.log(`    URL: ${yajswUrl}`);
+
+    const yajswFile: string = await tc.downloadTool(yajswUrl);
+    const yajswDir: string = await tc.extractZip(
+        yajswFile,
+        srcPath
+    );
+
+    console.log(`The download path of yajsw: ${yajswDir}`);
     let distPath: string = core.getInput('dist-path');
     if (!distPath) {
       distPath = path.join(workingDir, 'release/yajsw');
@@ -39,8 +45,12 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     fs.copySync(path.join(srcPath, 'templates'), path.join(distPath, 'wrapper', 'templates'), { overwrite: true });
     fs.copySync(path.join(srcPath, 'wrapper.jar'), path.join(distPath, 'wrapper', 'wrapper.jar'), { overwrite: true });
     fs.copySync(path.join(srcPath, 'wrapperApp.jar'), path.join(distPath, 'wrapper', 'wrapperApp.jar'), { overwrite: true });
-    fs.copySync(path.join(srcPath, 'wrapperApp9.jar'), path.join(distPath, 'wrapper', 'wrapperApp9.jar'), { overwrite: true });
     fs.copySync(path.join(srcPath, 'yajsw.policy.txt'), path.join(distPath, 'wrapper', 'yajsw.policy.txt'), { overwrite: true });
+
+    const srcPathWrapperApp9: string = path.join(srcPath, 'wrapperApp9.jar');
+    if (fs.existsSync(srcPathWrapperApp9)) {
+      fs.copySync(srcPathWrapperApp9, path.join(distPath, 'wrapper', 'wrapperApp9.jar'), { overwrite: true });
+    }
 
     console.log('Change the file name...');
 
@@ -185,8 +195,8 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 
     if (mainClass) {
       newData = newData.replace(/wrapper.java.app.mainclass=/g, 'wrapper.java.app.mainclass=' + mainClass);
-      newData = newData.replace(/#wrapper.java.classpath.1=/g, 'wrapper.java.classpath.1=${wrapper_home}/../lib/*.jar' + mainClass);
-      newData = newData.replace(/# wrapper.java.library.path.1=..\/lib/g, 'wrapper.java.library.path.1=${wrapper_home}/../lib' + mainClass);
+      newData = newData.replace(/#wrapper.java.classpath.1=/g, 'wrapper.java.classpath.1=${wrapper_home}/../lib/*.jar');
+      newData = newData.replace(/# wrapper.java.library.path.1=..\/lib/g, 'wrapper.java.library.path.1=${wrapper_home}/../lib');
     } else if (jarFile) {
       newData = newData.replace(/wrapper.java.app.mainclass=/g, '#wrapper.java.app.mainclass=');
       newData = newData.replace(/#wrapper.java.app.jar=/g, 'wrapper.java.app.jar=${wrapper_home}/../' + jarFile);
