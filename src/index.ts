@@ -14,17 +14,18 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     let yajswFileName: string = `yajsw-stable-${latestVersion}`;
     let yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/v1.1/${yajswFileName}.zip`;
 
+    const workingDir: string = process.cwd();
+    let srcPath: string = path.join(workingDir, yajswFileName);
+
     const yajswVersion: string = core.getInput('yajsw-version');
     if (yajswVersion && yajswFileName !== `yajsw-stable-${yajswVersion}`) {
       yajswFileName = `yajsw-stable-${yajswVersion}`;
       yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/${yajswFileName}/${yajswFileName}.zip`;
+      srcPath = workingDir;
     }
 
     console.log('Downloading yajsw...');
     console.log(`    URL: ${yajswUrl}`);
-
-    const workingDir: string = process.cwd();
-    const srcPath: string = path.join(workingDir, yajswFileName);
 
     const yajswFile: string = await tc.downloadTool(yajswUrl);
     const yajswDir: string = await tc.extractZip(
@@ -35,7 +36,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     console.log(`The download path of yajsw: ${yajswDir}`);
 
     fs.readdirSync(srcPath).forEach(file => {
-      console.log(file);
+      console.log(`>> ${file}`);
     });
 
     let distPath: string = core.getInput('dist-path');
