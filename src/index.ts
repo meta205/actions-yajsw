@@ -21,19 +21,22 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     if (yajswVersion && yajswFileName !== `yajsw-stable-${yajswVersion}`) {
       yajswFileName = `yajsw-stable-${yajswVersion}`;
       yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/${yajswFileName}/${yajswFileName}.zip`;
-      srcPath = workingDir;
     }
 
     console.log('Downloading yajsw...');
     console.log(`    URL: ${yajswUrl}`);
 
     const yajswFile: string = await tc.downloadTool(yajswUrl);
-    const yajswDir: string = await tc.extractZip(
+    await tc.extractZip(
         yajswFile,
         srcPath
     );
 
-    console.log(`The download path of yajsw: ${yajswDir}`);
+    if (!yajswFileName.endsWith(latestVersion)) {
+      srcPath = path.join(srcPath, yajswFileName);
+    }
+
+    console.log(`The download path of yajsw: ${srcPath}`);
 
     fs.readdirSync(srcPath).forEach(file => {
       console.log(`>> ${file}`);
