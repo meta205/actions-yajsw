@@ -16,7 +16,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     let yajswUrl: string = 'https://github.com/meta205/actions-yajsw/releases/download/v1.1/yajsw.zip';
 
     const yajswVersion: string = core.getInput('yajsw-version');
-    if (yajswVersion !== latestVersion) {
+    if (yajswVersion && yajswVersion !== latestVersion) {
       yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-${yajswVersion}/yajsw-stable-${yajswVersion}.zip`;
     }
 

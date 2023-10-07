@@ -9375,7 +9375,7 @@ const tc = __importStar(__nccwpck_require__(3476));
         const srcPath = path.join(workingDir, 'yajsw');
         let yajswUrl = 'https://github.com/meta205/actions-yajsw/releases/download/v1.1/yajsw.zip';
         const yajswVersion = core.getInput('yajsw-version');
-        if (yajswVersion !== latestVersion) {
+        if (yajswVersion && yajswVersion !== latestVersion) {
             yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-${yajswVersion}/yajsw-stable-${yajswVersion}.zip`;
         }
         console.log('Downloading yajsw...');
