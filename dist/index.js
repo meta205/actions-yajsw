@@ -9372,7 +9372,7 @@ const tc = __importStar(__nccwpck_require__(9968));
     try {
         const latestVersion = '13.10';
         let yajswFileName = `yajsw-stable-${latestVersion}`;
-        let yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/v1.1/${yajswFileName}.zip`;
+        let yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/v1/${yajswFileName}.zip`;
         const workingDir = process.cwd();
         let srcPath = path.join(workingDir, yajswFileName);
         const yajswVersion = core.getInput('yajsw-version');
