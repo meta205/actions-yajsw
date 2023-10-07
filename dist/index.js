@@ -9371,19 +9371,21 @@ const tc = __importStar(__nccwpck_require__(3476));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const latestVersion = '13.10';
-        const workingDir = process.cwd();
-        const srcPath = path.join(workingDir, 'yajsw');
-        let yajswUrl = 'https://github.com/meta205/actions-yajsw/releases/download/v1.1/yajsw.zip';
+        let yajswFileName = `yajsw-stable-${latestVersion}`;
+        let yajswUrl = `https://github.com/meta205/actions-yajsw/releases/download/v1.1/${yajswFileName}.zip`;
         const yajswVersion = core.getInput('yajsw-version');
-        if (yajswVersion && yajswVersion !== latestVersion) {
-            yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-${yajswVersion}/yajsw-stable-${yajswVersion}.zip`;
+        if (yajswVersion && yajswFileName !== `yajsw-stable-${yajswVersion}`) {
+            yajswFileName = `yajsw-stable-${yajswVersion}`;
+            yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/${yajswFileName}/${yajswFileName}.zip`;
         }
         console.log('Downloading yajsw...');
         console.log(`    URL: ${yajswUrl}`);
+        const workingDir = process.cwd();
+        const srcPath = path.join(workingDir, yajswFileName);
         const yajswFile = yield tc.downloadTool(yajswUrl);
         const yajswDir = yield tc.extractZip(yajswFile, srcPath);
         console.log(`The download path of yajsw: ${yajswDir}`);
-        fs_extra_1.default.readdirSync(yajswDir).forEach(file => {
+        fs_extra_1.default.readdirSync(srcPath).forEach(file => {
             console.log(file);
         });
         let distPath = core.getInput('dist-path');

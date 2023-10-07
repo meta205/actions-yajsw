@@ -10,18 +10,21 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
 (async (): Promise<void> => {
   try {
     const latestVersion: string = '13.10';
-    const workingDir: string = process.cwd();
-    const srcPath: string = path.join(workingDir, 'yajsw');
 
-    let yajswUrl: string = 'https://github.com/meta205/actions-yajsw/releases/download/v1.1/yajsw.zip';
+    let yajswFileName: string = `yajsw-stable-${latestVersion}`;
+    let yajswUrl: string = `https://github.com/meta205/actions-yajsw/releases/download/v1.1/${yajswFileName}.zip`;
 
     const yajswVersion: string = core.getInput('yajsw-version');
-    if (yajswVersion && yajswVersion !== latestVersion) {
-      yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/yajsw-stable-${yajswVersion}/yajsw-stable-${yajswVersion}.zip`;
+    if (yajswVersion && yajswFileName !== `yajsw-stable-${yajswVersion}`) {
+      yajswFileName = `yajsw-stable-${yajswVersion}`;
+      yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/${yajswFileName}/${yajswFileName}.zip`;
     }
 
     console.log('Downloading yajsw...');
     console.log(`    URL: ${yajswUrl}`);
+
+    const workingDir: string = process.cwd();
+    const srcPath: string = path.join(workingDir, yajswFileName);
 
     const yajswFile: string = await tc.downloadTool(yajswUrl);
     const yajswDir: string = await tc.extractZip(
@@ -30,7 +33,8 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     );
 
     console.log(`The download path of yajsw: ${yajswDir}`);
-    fs.readdirSync(yajswDir).forEach(file => {
+
+    fs.readdirSync(srcPath).forEach(file => {
       console.log(file);
     });
 
