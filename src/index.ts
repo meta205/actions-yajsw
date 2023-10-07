@@ -30,6 +30,10 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     );
 
     console.log(`The download path of yajsw: ${yajswDir}`);
+    fs.readdirSync(yajswDir).forEach(file => {
+      console.log(file);
+    });
+
     let distPath: string = core.getInput('dist-path');
     if (!distPath) {
       distPath = path.join(workingDir, 'release/yajsw');
