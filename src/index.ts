@@ -21,6 +21,7 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
     if (yajswVersion && yajswFileName !== `yajsw-stable-${yajswVersion}`) {
       yajswFileName = `yajsw-stable-${yajswVersion}`;
       yajswUrl = `https://sourceforge.net/projects/yajsw/files/yajsw/${yajswFileName}/${yajswFileName}.zip`;
+      srcPath = path.join(workingDir, yajswFileName);
     }
 
     console.log('Downloading yajsw...');
@@ -31,10 +32,6 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
         yajswFile,
         srcPath
     );
-
-    if (!yajswFileName.endsWith(latestVersion)) {
-      srcPath = path.join(srcPath, yajswFileName);
-    }
 
     console.log(`The download path of yajsw: ${srcPath}`);
 
