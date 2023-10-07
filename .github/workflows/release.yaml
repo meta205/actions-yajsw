@@ -13,6 +13,7 @@ jobs:
       - name: Make assets file
         run: |
           cd yajsw
+          find . -type f \( -name '*.sh' -o -name '*.xml' -o -name '*.txt' -o -name '*.conf' -o -name '*.conf.default' -o -name '*.vm' -o -name '*.gv' \) -exec perl -pi -e 's/\r//g' {} \;
           zip -r ../yajsw.zip *
       - name: Get release info
         run: |
