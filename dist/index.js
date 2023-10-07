@@ -9385,6 +9385,9 @@ const tc = __importStar(__nccwpck_require__(9968));
         console.log(`    URL: ${yajswUrl}`);
         const yajswFile = yield tc.downloadTool(yajswUrl);
         yield tc.extractZip(yajswFile, srcPath);
+        if (!yajswFileName.endsWith(latestVersion)) {
+            srcPath = path.join(srcPath, yajswFileName);
+        }
         console.log(`The download path of yajsw: ${srcPath}`);
         fs_extra_1.default.readdirSync(srcPath).forEach(file => {
             console.log(`>> ${file}`);

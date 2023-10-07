@@ -33,6 +33,10 @@ type FileReplaceInfo = {[key: string]: {[key: string]: string}};
         srcPath
     );
 
+    if (!yajswFileName.endsWith(latestVersion)) {
+      srcPath = path.join(srcPath, yajswFileName);
+    }
+
     console.log(`The download path of yajsw: ${srcPath}`);
 
     fs.readdirSync(srcPath).forEach(file => {
